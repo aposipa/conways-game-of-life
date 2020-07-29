@@ -2,8 +2,8 @@ import React, { useState, useCallback, useRef } from 'react';
 import produce from 'immer';
 import './App.css';
 
-const numRows = 50;
-const numCols = 50;
+const numRows = 25;
+const numCols = 25;
 
 const operations = [
   [0, 1],
@@ -15,27 +15,33 @@ const operations = [
   [1, 0],
   [-1, 0]
 ];
-// clears current grid
-const createEmptyGrid = () => {
-  const rows = [];
-  for (let i = 0; i < numRows; i++) {
-    rows.push(Array.from(Array(numCols), () => 0))
-  }
-  return rows
-}
+
 
 function App() {
+  // const [numRows, setNumRows] = useState(25);
+  // const [numCols, setNumCols] = useState(25);
+  const [time, setTime] = useState(100);
+  
+  // clears current grid
+  const createEmptyGrid = () => {
+    const rows = [];
+    for (let i = 0; i < numRows; i++) {
+      rows.push(Array.from(Array(numCols), () => 0))
+    }
+    return rows
+  }
+  
   const [grid, setGrid] = useState(() => {
     return createEmptyGrid()
   });
-
+  
   const [running, setRunning] = useState(false);
-
+  
   const runningRef = useRef(running);
   runningRef.current = running
-
+  
   const runSimulation = useCallback(() => {
-    // Will run a simulation of game of life
+    // will run a simulation on interval
     if (!runningRef.current) {
       return;
     }
@@ -51,7 +57,51 @@ function App() {
                 neighbors += g[newI][newJ]
               }
             });
-
+            
+            if (neighbors < 2 || neighbors > 3) {
+              gridCopy[i][j] = 0;
+            } else if (g[i][j] === 0 && neighbors === 3) {
+              gridCopy[i][j] = 1;
+            }
+          }
+        }
+      });
+    });
+    console.log("settimeout time",time)
+    setTimeout(runSimulation, time || 100);
+  }, [time])
+  
+  const handleTimeChange = (e) => {
+    setTime(e.target.value)
+    console.log("handlechange:", e.target.value)
+    console.log("time:",time)
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(time)
+  }
+  // const handleColChange = (e) => {
+  //   setNumCols(e.target.value)
+  // }
+  
+  const justOneSimulation = useCallback(() => {
+    // will run a simulation one at a time
+    if (!runningRef.current) {
+      return;
+    }
+    setGrid((g) => {
+      return produce(g, gridCopy => {
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < numCols; j++) {
+            let neighbors = 0;
+            operations.forEach(([x, y]) => {
+              const newI = i + x;
+              const newJ = j + y;
+              if (newI >= 0 && newI < numRows && newJ >= 0 && newJ < numCols) {
+                neighbors += g[newI][newJ]
+              }
+            });
+            
             if (neighbors < 2 || neighbors > 3) {
               gridCopy[i][j] = 0;
             } else if (g[i][j] === 0 && neighbors === 3) {
@@ -62,7 +112,6 @@ function App() {
       });
     });
 
-    setTimeout(runSimulation, 100);
   }, [])
 
   return (
@@ -74,7 +123,15 @@ function App() {
       runSimulation();
     }}
     >
-      {running ? "Stop" : "Start"}
+    Start
+    </button>
+    <button
+    onClick={() => {
+      setRunning(!running);
+      runningRef.current = false;
+    }}
+    >
+    Stop
     </button>
     <button onClick={() => {
       setGrid(createEmptyGrid());
@@ -88,7 +145,32 @@ function App() {
 
       setGrid(rows);
     }}>Randomize Grid</button>
-
+    <button onClick={() => {
+      setRunning(!running);
+      runningRef.current = true;
+      justOneSimulation();
+    }}>Next Generation</button>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Time Interval:
+        <input
+        placeholder={time}
+        type="number"
+        onChange={handleTimeChange}
+        />
+        msec
+        <button >Run</button>
+      </label>
+    </form>
+    {/* <form>
+      <label>
+        Number of Cols:
+        <input
+        type="number"
+        onChange={handleColChange}
+        />
+      </label>
+    </form> */}
     <div style={{
       display: 'grid',
       gridTemplateColumns: `repeat(${numCols}, 20px)`
@@ -109,8 +191,8 @@ function App() {
       style = {{ 
         width: 20, 
         height: 20, 
-        backgroundColor: grid[i][j] ? 'forestgreen': undefined, 
-        border: 'solid 1px black'
+        backgroundColor: grid[i][j] ? 'black': undefined, 
+        border: 'solid 1px orange'
       }} 
       />)
       )}
