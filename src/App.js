@@ -18,8 +18,6 @@ const operations = [
 
 
 function App() {
-  // const [numRows, setNumRows] = useState(25);
-  // const [numCols, setNumCols] = useState(25);
   const [time, setTime] = useState(100);
   
   // clears current grid
@@ -67,22 +65,15 @@ function App() {
         }
       });
     });
-    console.log("settimeout time",time)
-    setTimeout(runSimulation, time || 100);
+    setTimeout(runSimulation, time);
   }, [time])
   
   const handleTimeChange = (e) => {
     setTime(e.target.value)
-    console.log("handlechange:", e.target.value)
-    console.log("time:",time)
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(time)
   }
-  // const handleColChange = (e) => {
-  //   setNumCols(e.target.value)
-  // }
   
   const justOneSimulation = useCallback(() => {
     // will run a simulation one at a time
@@ -154,23 +145,13 @@ function App() {
       <label>
         Time Interval:
         <input
-        placeholder={time}
+        value={time}
         type="number"
         onChange={handleTimeChange}
         />
         msec
-        <button >Run</button>
       </label>
     </form>
-    {/* <form>
-      <label>
-        Number of Cols:
-        <input
-        type="number"
-        onChange={handleColChange}
-        />
-      </label>
-    </form> */}
     <div style={{
       display: 'grid',
       gridTemplateColumns: `repeat(${numCols}, 20px)`
