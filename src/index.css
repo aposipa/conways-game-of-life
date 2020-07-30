@@ -11,3 +11,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.button {
+  background-color: lightblue;
+  color: black;
+  padding: 14px 40px;
+  border-radius: 8px;
+}
+.button:hover {
+  color: white;
+  border: 2px solid white;
+}
+.game-display {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.buttons {
+  padding-top: 2%;
+}
+.alg-text {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.time-interval {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+}
+ul {
+  list-style-type: circle;
+}
