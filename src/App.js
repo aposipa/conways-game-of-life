@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
-import produce, { current } from 'immer';
+import produce from 'immer';
 import './App.css';
 
 
@@ -22,12 +22,8 @@ const operations = [
 function App() {
   const [time, setTime] = useState(100);
   
-  // const [generation, setGeneration] = useState(0);
+  const [generation, setGeneration] = useState(0);
 
-  // const getGeneration = () => {
-  //   setGeneration += 1
-  //   return setGeneration;
-  // }
 
   // clears current grid
   const createEmptyGrid = () => {
@@ -74,9 +70,8 @@ function App() {
         }
       });
     });
+    setGeneration((generation) => generation + 1);
     setTimeout(runSimulation, time);
-    // getGeneration();
-    // console.log(generation)
   }, [time])
   
   const handleTimeChange = (e) => {
@@ -113,6 +108,7 @@ function App() {
         }
       });
     });
+    setGeneration((generation) => generation + 1);
   }, [])
 
   return (
@@ -125,7 +121,7 @@ function App() {
     </header>
     <div className="left-side">
       <label>
-        # Generation: 0
+        # Generation: {generation}
       </label>
     <div style={{
       display: 'grid',
