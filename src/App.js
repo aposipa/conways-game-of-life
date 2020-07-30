@@ -169,6 +169,7 @@ function App() {
     </button>
     <button  className="button"
     onClick={() => {
+      setGeneration((generation) => generation = 0)
       setGrid(createEmptyGrid());
     }}>Clear</button>
     <button className="button"
