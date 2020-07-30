@@ -121,7 +121,7 @@ function App() {
     </header>
     <div className="left-side">
       <label>
-        # Generation: {generation}
+        Generation #: <u><b>{generation}</b></u>
       </label>
     <div style={{
       display: 'grid',
@@ -174,6 +174,7 @@ function App() {
     }}>Clear</button>
     <button className="button"
     onClick={() => {
+      setGeneration((generation) => generation = 0)
       const rows = [];
       // randomizes grid 50/50 either alive or dead for each space.
       for (let i = 0; i < numRows; i++) {
