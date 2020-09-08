@@ -4,8 +4,9 @@
 
 In computability theory, a system of data-manipulation rules (such as a computer's instruction set, a programming language, or a cellular automaton) is said to be Turing-complete or computationally universal if it can be used to simulate any Turing machine. This means that this system is able to recognize or decide other data-manipulation rule sets. Turing completeness is used as a way to express the power of such a data-manipulation rule set. Virtually all programming languages today are Turing-complete. The concept is named after English mathematician and computer scientist Alan Turing.
 
-## Rules
 ------
+
+## Rules
 
 In the Game of Life, these rules examine each cell of the grid. For each cell, it counts that cell's eight neighbors (up, down, left, right, and diagonals), and then act on that result.
 * If the cell is alive and has 2 or 3 neighbors, then it remains alive. Else it dies.
@@ -17,7 +18,6 @@ From those two rules, many types of "creatures" can be created that move around 
 ------
 
 ## Interactive Rules
-------
 
 * You can customize the grid to your liking while the game is not running. Simply click on a square to make it alive, or dead.
 * The 'Randomize Grid' button will generate a random grid to start with.
